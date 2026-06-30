@@ -1,44 +1,155 @@
-# 🤖 Ecosistema de Agentes Inteligentes — FadeBooker
+# Bank Marketing Dataset
 
-Este directorio contiene la configuración del sistema de agentes personalizados para **FadeBooker**, optimizado para el desarrollo ágil, la documentación automatizada y el análisis de negocio.
+Proyecto de preprocesamiento y preparación de datos para un caso de predicción de suscripción a depósitos a plazo.
 
-## 🏛️ Arquitectura de Coordinación (3 Niveles)
+Este repositorio organiza el trabajo del dataset `Bank Marketing` con foco en:
 
-1.  **Orquestador Principal (`@system-orchestrator`)**: Punto de entrada único. Analiza tu petición y delega al área técnica correspondiente.
-2.  **Orquestadores de Dominio**: Especialistas en áreas macro (Programación, Documentación, Datos).
-3.  **Agentes Especialistas**: Expertos en tareas granulares (Frontend, Backend, DB, DevOps, Seguridad, etc.).
+- separación correcta de `Train` y `Test`,
+- limpieza de datos,
+- análisis exploratorio,
+- escalamiento y codificación,
+- construcción de un pipeline reproducible,
+- validación del dataset procesado para modelado posterior.
 
-## 📁 Estructura del Ecosistema
+## Objetivo
 
+Preparar el conjunto de datos `bank-additional-full.csv` para que pueda usarse en Machine Learning sin fuga de información y con transformaciones bien documentadas.
+
+La variable objetivo es `y`, que indica si el cliente contrató o no un depósito a plazo:
+
+- `yes`: contrató
+- `no`: no contrató
+
+## Dataset
+
+- Archivo fuente: `data/raw/bank-additional-full.csv`
+- Registros: `41.188`
+- Variables: `21`
+- Problema: clasificación binaria
+- Distribución aproximada de la clase objetivo:
+  - `no`: `36.548`
+  - `yes`: `4.640`
+
+## Criterio metodológico
+
+La regla central del proyecto es:
+
+1. cargar el dataset,
+2. separar `X` e `y`,
+3. ejecutar `train_test_split(..., stratify=y, random_state=42)`,
+4. hacer EDA y transformaciones aprendidas solo sobre `Train`,
+5. aplicar `transform` a `Train` y `Test`,
+6. reservar `Test` para la validación final.
+
+Esto evita `data leakage` y mantiene válida la evaluación posterior.
+
+## Estructura del proyecto
+
+- `data/raw/`: dataset original.
+- `data/splits/`: particiones `X_train`, `X_test`, `y_train`, `y_test`.
+- `data/processed/`: versiones limpiadas y listas para modelado.
+- `docs/`: documentación del proyecto.
+- `notebooks/`: notebooks y scripts de trabajo.
+- `reports/`: gráficos, resultados y material de presentación.
+
+## Flujo de trabajo
+
+### 1. Separación inicial
+
+- Cargar `bank-additional-full.csv`.
+- Separar variables predictoras y objetivo.
+- Ejecutar `train_test_split` con estratificación.
+- Guardar los subconjuntos para trazabilidad.
+
+### 2. Comprensión y limpieza
+
+- Revisar tipos de datos.
+- Detectar `unknown`, nulos y duplicados.
+- Definir reglas de tratamiento para el conjunto de entrenamiento.
+- Eliminar variables o registros que introduzcan fuga de información si corresponde.
+
+### 3. EDA sobre `Train`
+
+- Analizar distribuciones univariadas.
+- Explorar relaciones bivariadas con `y`.
+- Priorizar tasas de conversión sobre frecuencias absolutas.
+- Generar gráficos útiles para la defensa y el informe.
+
+### 4. Transformaciones
+
+- Escalar variables numéricas con `StandardScaler`.
+- Codificar variables categóricas con `OneHotEncoder` y `OrdinalEncoder`.
+- Aplicar imputación si corresponde.
+- Mantener consistencia entre `Train` y `Test`.
+
+### 5. Pipeline
+
+- Consolidar las transformaciones en `Pipeline` y `ColumnTransformer`.
+- Ajustar `fit` solo con `Train`.
+- Usar `transform` para `Train` y `Test`.
+
+### 6. Validación
+
+- Verificar ausencia de nulos en las matrices procesadas.
+- Confirmar consistencia dimensional.
+- Revisar resultados antes de modelar.
+
+## Archivos relevantes
+
+- `notebooks/01_preprocesamiento_proyecto.ipynb`: notebook principal del flujo.
+- `notebooks/02_modelado_basico.ipynb`: modelado base posterior al preprocesamiento.
+- `notebooks/preprocessing.py`: funciones de apoyo reutilizables.
+- `data/raw/bank-additional-full.csv`: dataset original.
+
+## Ejecución local
+
+### 1. Entrar al proyecto
+
+```bash
+cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
-.github/
-├── system-orchestrator.agent.md    # Punto de partida recomendado
-├── AGENTS.md                        # Registro maestro y mapa de estados
-├── copilot-instructions.md          # Reglas de oro y stack tecnológico
-└── agents/
-    ├── programming/                 # Desarrollo de Software (React, Node, SQL)
-    ├── study/                       # Gestión de Knowledge Base y Documentos
-    ├── data/                        # Métricas y Business Intelligence
-    └── support/                     # Soporte Git/GitHub
+
+### 2. Crear entorno virtual
+
+```bash
+cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
-## 🚀 Cómo usar los Agentes
+### 3. Instalar dependencias
 
-Para obtener los mejores resultados, **comienza tus peticiones con @system-orchestrator**. Él se encargará de llamar a los agentes necesarios.
+```bash
+cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+```
 
-### Ejemplos de uso:
+### 4. Registrar kernel
 
--   **Desarrollo Completo**: `@system-orchestrator: Implementa el sistema de reseñas de barberos, incluyendo DB, API y Frontend.`
--   **Análisis de Documentación**: `@system-orchestrator: Resume el Acta de Constitución y dime si mis últimos cambios cumplen los requerimientos.`
--   **Gestión Git**: `@system-orchestrator: Revisa mis cambios y prepara un commit siguiendo el estándar.`
--   **Métricas de Negocio**: `@system-orchestrator: Analiza las tendencias de ventas de este mes basándote en los logs de Mercado Pago.`
+```bash
+cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+```
 
-## 🛠️ Stack Tecnológico de Referencia
+### 5. Abrir Jupyter
 
--   **Backend**: Node.js 20, Hexagonal Architecture, Knex.js.
--   **Frontend**: React 18, Vite, Tailwind CSS.
--   **BD**: Azure SQL Server.
--   **Integraciones**: Mercado Pago v2, Cloudinary.
+Se recomienda ejecutar Jupyter desde `notebooks/` para que los imports locales funcionen sin ajustes extra.
 
----
-Para más detalles sobre cada agente y su responsabilidad, consulta [AGENTS.md](AGENTS.md).
+```bash
+cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+```
+
+## Orden sugerido de ejecución
+
+1. `01_preprocesamiento_proyecto.ipynb`
+2. `02_modelado_basico.ipynb`
+
+## Entregables esperados
+
+- Separación formal de `Train` y `Test`.
+- Limpieza documentada de los datos.
+- EDA con al menos 15 gráficos útiles.
+- Escalamiento y codificación justificadas.
+- Pipeline reproducible.
+- Dataset final preparado para modelado.
+- Informe técnico y defensa oral.
+
+## Nota metodológica
+
+`duration` debe tratarse con cuidado porque puede introducir fuga de información. El proyecto la analiza como variable delicada y, si corresponde, la excluye del flujo de modelado.
