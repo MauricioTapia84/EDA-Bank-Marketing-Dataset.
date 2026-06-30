@@ -106,25 +106,25 @@ Esto evita `data leakage` y mantiene válida la evaluación posterior.
 ### 1. Entrar al proyecto
 
 ```bash
-cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+cd /Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
 ### 2. Crear entorno virtual
 
 ```bash
-cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+cd /Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
 ### 3. Instalar dependencias
 
 ```bash
-cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+cd /Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
 ### 4. Registrar kernel
 
 ```bash
-cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+cd /Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
 ### 5. Abrir Jupyter
@@ -132,7 +132,7 @@ cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketin
 Se recomienda ejecutar Jupyter desde `notebooks/` para que los imports locales funcionen sin ajustes extra.
 
 ```bash
-cd /home/tomy/Downloads/Instituto/Bank/EDA-Bank-Marketing-Dataset./bank_marketing
+cd /Bank/EDA-Bank-Marketing-Dataset./bank_marketing
 ```
 
 ## Orden sugerido de ejecución
